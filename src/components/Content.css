@@ -1,0 +1,11 @@
+.row {
+    display:flex;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+
+.box{
+    margin: 10px;
+    border: 1px solid gray;
+    padding: 5px;
+}
