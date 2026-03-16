@@ -11,8 +11,9 @@ import { createContext, useState } from "react";
 export const AppContext = createContext();
 function App() {
   const [user, setUser] = useState({});
+  const [cart, setCart] = useState([]);
   return (
-    <AppContext.Provider value={{ user, setUser }}>
+    <AppContext.Provider value={{ user, setUser, cart, setCart }}>
       <BrowserRouter>
         <Header />
         <Routes>
