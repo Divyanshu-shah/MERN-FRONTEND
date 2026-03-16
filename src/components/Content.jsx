@@ -7,7 +7,12 @@ function Content() {
   const fetchProducts = async () => {
     const url = `${API_URL}/products`;
     const res = await axios.get(url);
-    setProducts(res.data);
+    console.log('API response:', res.data);
+    if (Array.isArray(res.data)) {
+      setProducts(res.data);
+    } else {
+      setProducts([]);
+    }
   };
   useEffect(() => {
     fetchProducts();
