@@ -10,7 +10,9 @@ export default function Orders() {
   const fetchOrders = async () => {
     const url = `${API_URL}/orders/show-orders/${user.email}`;
     const res = await axios.get(url);
-    setOrders(res.data);
+    // Ensure orders is always an array
+    const data = Array.isArray(res.data) ? res.data : [];
+    setOrders(data);
   };
   useEffect(() => {
     fetchOrders();
@@ -20,13 +22,13 @@ export default function Orders() {
     <div>
       <h3>Orders</h3>
       <div>
-        {orders &&
+        {Array.isArray(orders) && orders.length > 0 ? (
           orders.map((order) => (
-            <div>
+            <div key={order._id}>
               <h4>OrderId:{order._id}</h4>
               <ol>
-                {order.cart.map((item) => (
-                  <li>
+                {order.cart.map((item, idx) => (
+                  <li key={idx}>
                     {item.name}-{item.price}-{item.quantity}-
                     {item.price * item.quantity}
                   </li>
@@ -36,9 +38,11 @@ export default function Orders() {
               <h3>Status:{order.status}</h3>
               <hr />
             </div>
-          ))}
+          ))
+        ) : (
+          <p>No orders found.</p>
+        )}
       </div>
-      ;
     </div>
   );
 }

@@ -9,7 +9,9 @@ function Content() {
   const fetchProducts = async () => {
     const url = `${API_URL}/products`;
     const res = await axios.get(url);
-    setProducts(res.data);
+    // Ensure products is always an array
+    const data = Array.isArray(res.data) ? res.data : [];
+    setProducts(data);
   };
   useEffect(() => {
     fetchProducts();
@@ -25,16 +27,19 @@ function Content() {
 
   return (
     <div className="row">
-      {products &&
+      {Array.isArray(products) && products.length > 0 ? (
         products.map((product) => (
-          <div class="box" key={product._id}>
+          <div className="box" key={product._id}>
             <img src={`${API_URL}${product.imageUrl}`} width={300} alt="" />
             <h3>{product.name}</h3>
             <p>{product.desc}</p>
             <h4>{product.price}</h4>
             <button onClick={() => addToCart(product)}>Add to Cart</button>
           </div>
-        ))}
+        ))
+      ) : (
+        <p>No products found.</p>
+      )}
     </div>
   );
 }
