@@ -1,0 +1,30 @@
+table {
+    margin: 10px;
+    border: 1px solid gray
+}
+
+table th {
+    background-color: #eeeeee;
+    padding: 5px;
+    margin: 10px;
+}
+
+table td {
+    border: 1px solid gray
+}
+
+.tableFooter {
+    background-color: #eeeeee;
+}
+
+table .rAlign {
+    text-align: right;
+}
+
+table .cAlign {
+    text-align: center;
+}
+
+.App-Cart-Button{
+    margin: 10px;
+}

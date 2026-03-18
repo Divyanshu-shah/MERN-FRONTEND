@@ -2,13 +2,22 @@ import React from "react";
 import { AppContext } from "../App";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./Login.css"
 export default function Login() {
-  const { user, setUser } = useContext(AppContext);
-  const handleLogin = () => {
-    console.log(user)
-  }
+  const { user, setUser, cart } = useContext(AppContext);
+  const API_URL = import.meta.env.VITE_API_URL;
+  const Navigate = useNavigate();
+  const handleLogin = async () => {
+    const url = `${API_URL}/admin/login`;
+    const res = await axios.post(url, user);
+    setUser(res.data);
+    if (cart.length > 0) Navigate("/cart");
+    else Navigate("/");
+  };
   return (
-    <div>
+    <div className="App-Login-Form">
       <h3>Login Form</h3>
       <p>
         <input

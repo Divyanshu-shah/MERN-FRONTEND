@@ -1,13 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./Register.css"
 export default function Register() {
   const [obj, setObj] = useState({});
-  const handleSubmit = () => {
-    console.log(obj);
+  const API_URL = import.meta.env.VITE_API_URL;
+  const Navigate = useNavigate();
+  const handleSubmit = async () => {
+    const url = `${API_URL}/admin/signup`;
+    const res = await axios.post(url, obj);
+    Navigate("/login");
   };
   return (
-    <div>
+    <div className="App-Register-Form">
       <h3>Register</h3>
       <p>
         <input
