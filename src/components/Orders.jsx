@@ -20,7 +20,7 @@ export default function Orders() {
     <div>
       <h3>Orders</h3>
       <div>
-        {orders &&
+        {Array.isArray(orders) &&
           orders.map((order) => (
             <div>
               <h4>OrderId:{order._id}</h4>

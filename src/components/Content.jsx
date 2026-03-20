@@ -49,7 +49,7 @@ function Content() {
 
   return (
     <div className="row">
-      {products &&
+      {Array.isArray(products) &&
         products.map((product) => (
           <div class="box" key={product._id}>
             <img src={`${API_URL}${product.imageUrl}`} width={300} alt="" />

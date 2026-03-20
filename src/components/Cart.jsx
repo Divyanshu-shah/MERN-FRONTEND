@@ -51,7 +51,7 @@ export default function Cart() {
       orderValue,
     };
     const res = await axios.post(url, order);
-    setCart({});
+    setCart([]);
     Navigate("/orders");
   };
   return (
