@@ -9,9 +9,7 @@ function Content() {
   const fetchProducts = async () => {
     const url = `${API_URL}/products`;
     const res = await axios.get(url);
-    // Ensure products is always an array
-    const data = Array.isArray(res.data) ? res.data : [];
-    setProducts(data);
+    setProducts(res.data);
   };
   useEffect(() => {
     fetchProducts();
@@ -19,27 +17,57 @@ function Content() {
 
   const addToCart = (product) => {
     const found = cart.find((item) => item._id === product._id);
-    if(!found){
-      product.quantity = 1
-      setCart([...cart,product])
+    if (!found) {
+      product.quantity = 1;
+      setCart([...cart, product]);
     }
+  };
+
+  const increment = (id) => {
+    setCart(
+      cart.map((item) => {
+        if (item._id === id) {
+          return { ...item, quantity: item.quantity + 1 };
+        } else {
+          return item;
+        }
+      }),
+    );
+  };
+
+  const decrement = (id) => {
+    setCart(
+      cart.map((item) => {
+        if (item._id === id && item.quantity > 0) {
+          return { ...item, quantity: item.quantity - 1 };
+        } else {
+          return item;
+        }
+      }),
+    );
   };
 
   return (
     <div className="row">
-      {Array.isArray(products) && products.length > 0 ? (
+      {products &&
         products.map((product) => (
-          <div className="box" key={product._id}>
+          <div class="box" key={product._id}>
             <img src={`${API_URL}${product.imageUrl}`} width={300} alt="" />
             <h3>{product.name}</h3>
             <p>{product.desc}</p>
             <h4>{product.price}</h4>
-            <button onClick={() => addToCart(product)}>Add to Cart</button>
+
+            {cart.find((item) => item._id === product._id) ? (
+              <>
+                <button onClick={()=>decrement(product._id)}>-</button>
+                {10}
+                <button onClick={()=>increment(product._id)}>+</button>
+              </>
+            ) : (
+              <button onClick={() => addToCart(product)}>Add to Cart</button>
+            )}
           </div>
-        ))
-      ) : (
-        <p>No products found.</p>
-      )}
+        ))}
     </div>
   );
 }
