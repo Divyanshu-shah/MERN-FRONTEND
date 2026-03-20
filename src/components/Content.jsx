@@ -49,7 +49,11 @@ function Content() {
 
   return (
     <div className="row">
+<<<<<<< HEAD
       {products &&
+=======
+      {Array.isArray(products) &&
+>>>>>>> 69a03b42d332b4599d3b2b66bcb13d0b1eb510bf
         products.map((product) => (
           <div class="box" key={product._id}>
             <img src={`${API_URL}${product.imageUrl}`} width={300} alt="" />
