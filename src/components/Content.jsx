@@ -8,6 +8,13 @@ function Content() {
   const { cart, setCart } = useContext(AppContext);
   const API_URL = import.meta.env.VITE_API_URL;
 
+  // Build image URL safely (handles with or without leading /)
+  const getImageUrl = (imageUrl) => {
+    if (!imageUrl) return "";
+    const url = imageUrl.startsWith("/") ? imageUrl : `/${imageUrl}`;
+    return `${API_URL}${url}`;
+  };
+
   function ItemQuantity({ id }) {
     const item = cart.find((item) => item._id === id && item.quantity > 0);
     return item.quantity;
@@ -61,7 +68,7 @@ function Content() {
       {products &&
         products.map((product) => (
           <div className="box" key={product._id}>
-            <img src={`${API_URL}${product.imageUrl}`} width={300} alt="" />
+            <img src={getImageUrl(product.imageUrl)} width={300} alt="" />
             <h3>{product.name}</h3>
             <p>{product.desc}</p>
             <h4>{product.price}</h4>
