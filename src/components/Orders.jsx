@@ -20,11 +20,7 @@ export default function Orders() {
     <div>
       <h3>Orders</h3>
       <div>
-<<<<<<< HEAD
         {orders &&
-=======
-        {Array.isArray(orders) &&
->>>>>>> 69a03b42d332b4599d3b2b66bcb13d0b1eb510bf
           orders.map((order) => (
             <div>
               <h4>OrderId:{order._id}</h4>

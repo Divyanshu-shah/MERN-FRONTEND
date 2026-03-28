@@ -23,13 +23,15 @@ export default function Cart() {
 
   const decrement = (id) => {
     setCart(
-      cart.map((item) => {
-        if (item._id === id && item.quantity > 0) {
-          return { ...item, quantity: item.quantity - 1 };
-        } else {
-          return item;
-        }
-      }),
+      cart
+        .map((item) => {
+          if (item._id === id && item.quantity > 0) {
+            return { ...item, quantity: item.quantity - 1 };
+          } else {
+            return item;
+          }
+        })
+        .filter((item) => item.quantity > 0),
     );
   };
 
@@ -39,7 +41,7 @@ export default function Cart() {
         cart.reduce((sum, item) => {
           return sum + item.quantity * item.price;
         }, 0),
-      )
+      );
     }
   }, [cart]);
 
@@ -51,7 +53,7 @@ export default function Cart() {
       orderValue,
     };
     const res = await axios.post(url, order);
-    setCart([]);
+    setCart({});
     Navigate("/orders");
   };
   return (
@@ -67,18 +69,21 @@ export default function Cart() {
               <th>Total</th>
             </tr>
             {cart &&
-              cart.map((item) => (
-                <tr key={item._id}>
-                  <td>{item.name}</td>
-                  <td className="rAlign">{item.price}</td>
-                  <td className="cAlign">
-                    <button onClick={() => decrement(item._id)}>-</button>
-                    {item.quantity}
-                    <button onClick={() => increment(item._id)}>+</button>
-                  </td>
-                  <td className="rAlign">{item.price * item.quantity}</td>
-                </tr>
-              ))}
+              cart.map(
+                (item) =>
+                  item.quantity > 0 && (
+                    <tr key={item._id}>
+                      <td>{item.name}</td>
+                      <td className="rAlign">{item.price}</td>
+                      <td className="cAlign">
+                        <button onClick={() => decrement(item._id)}>-</button>
+                        {item.quantity}
+                        <button onClick={() => increment(item._id)}>+</button>
+                      </td>
+                      <td className="rAlign">{item.price * item.quantity}</td>
+                    </tr>
+                  ),
+              )}
             <tr className="tableFooter">
               <td colspan="3">Order Value:</td>
               <td className="rAlign">{orderValue}</td>
