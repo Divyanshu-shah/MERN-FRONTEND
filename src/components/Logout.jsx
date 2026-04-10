@@ -1,15 +1,17 @@
-import React from 'react'
-import App, { AppContext } from '../App'
-import { useContext,useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { AppContext } from "../App";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
 export default function Logout() {
-  const {user,setUser} = useContext(AppContext)
-const Navigate = useNavigate()
-  useEffect(()=>{
-    setUser({})
-    Navigate("/")
-  },{})
-  return (
-    <div>Logout</div>
-  )
+  const { setUser } = useContext(AppContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setUser({});
+    toast.success("Logged out");
+    navigate("/");
+  }, []);
+
+  return null;
 }

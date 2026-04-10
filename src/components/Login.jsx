@@ -1,44 +1,96 @@
-import React from "react";
 import { AppContext } from "../App";
 import { useContext } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import axios from "axios";
-import "./Login.css"
+import toast from "react-hot-toast";
+
 export default function Login() {
   const { user, setUser, cart } = useContext(AppContext);
   const API_URL = import.meta.env.VITE_API_URL;
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   const handleLogin = async () => {
-    const url = `${API_URL}/admin/login`;
-    const res = await axios.post(url, user);
-    setUser(res.data);
-    if (cart.length > 0) Navigate("/cart");
-    else Navigate("/");
+    if (!user.email || !user.password) return toast.error("Fill all fields");
+    setLoading(true);
+    try {
+      const res = await axios.post(`${API_URL}/admin/login`, user);
+      setUser(res.data);
+      toast.success("Welcome back!");
+      cart.length > 0 ? navigate("/cart") : navigate("/");
+    } catch {
+      toast.error("Invalid credentials");
+    }
+    setLoading(false);
   };
+
   return (
-    <div className="App-Login-Form">
-      <h3>Login Form</h3>
-      <p>
-        <input
-          type="text"
-          onChange={(e) => setUser({ ...user, email: e.target.value })}
-          placeholder="Email"
-        />
-      </p>
-      <p>
-        <input
-          onChange={(e) => setUser({ ...user, password: e.target.value })}
-          type="password"
-          placeholder="Password"
-        />
-      </p>
-      <p>
-        <button onClick={handleLogin}>Login</button>
-      </p>
-      <p>
-        <Link to="/register">New User Register Here</Link>
-      </p>
-    </div>
+    <section className="min-h-[calc(100vh-180px)] flex items-center justify-center px-4 py-16">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-md"
+      >
+        <div className="bg-white rounded-2xl border border-[#e4e0d9] shadow-[0_2px_24px_rgba(0,0,0,0.06)] px-8 py-10 sm:px-10 sm:py-12">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-serif font-bold text-[#2d2926] mb-1.5">
+              Welcome Back
+            </h2>
+            <p className="text-[#5c564e] text-sm">
+              Sign in to continue shopping
+            </p>
+          </div>
+
+          {/* Form */}
+          <div className="space-y-5">
+            <div>
+              <label className="block text-xs font-semibold text-[#5c564e] tracking-wide uppercase mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                onChange={(e) => setUser({ ...user, email: e.target.value })}
+                onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+
+                className="w-full h-12 px-4 rounded-xl border border-[#e4e0d9] bg-[#faf9f6] text-sm text-[#2d2926] placeholder:text-[#a8a49c] focus:outline-none focus:border-[#2d2926] focus:ring-2 focus:ring-[#2d2926]/5 transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-[#5c564e] tracking-wide uppercase mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                onChange={(e) => setUser({ ...user, password: e.target.value })}
+                onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+
+                className="w-full h-12 px-4 rounded-xl border border-[#e4e0d9] bg-[#faf9f6] text-sm text-[#2d2926] placeholder:text-[#a8a49c] focus:outline-none focus:border-[#2d2926] focus:ring-2 focus:ring-[#2d2926]/5 transition-all"
+              />
+            </div>
+
+            <motion.button
+              whileTap={{ scale: 0.98 }}
+              onClick={handleLogin}
+              disabled={loading}
+              className="w-full h-12 bg-[#2d2926] text-white text-xs font-semibold tracking-[0.15em] uppercase rounded-full hover:bg-[#3d3530] transition-colors disabled:opacity-50 mt-1"
+            >
+              {loading ? "Signing in..." : "Sign In"}
+            </motion.button>
+          </div>
+        </div>
+
+        <p className="text-center text-[#5c564e] text-sm mt-7">
+          New here?{" "}
+          <Link to="/register" className="text-[#2d2926] font-semibold hover:underline">
+            Create Account
+          </Link>
+        </p>
+      </motion.div>
+    </section>
   );
 }
