@@ -9,63 +9,96 @@ import Orders from "./components/Orders";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { createContext, useState, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
+import { AnimatePresence, motion } from "framer-motion";
+import axios from "axios";
 
 export const AppContext = createContext();
 
 function ScrollToTop() {
   const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, [pathname]);
   return null;
+}
+
+const pageVariants = {
+  initial: { opacity: 0, y: 16, filter: "blur(6px)" },
+  animate: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+  exit: { opacity: 0, y: -8, filter: "blur(4px)", transition: { duration: 0.3, ease: [0.7, 0, 0.84, 0] } },
+};
+
+function AnimatedRoutes() {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div key={location.pathname} variants={pageVariants} initial="initial" animate="animate" exit="exit" style={{ willChange: "opacity, transform, filter" }}>
+        <Routes location={location}>
+          <Route index element={<Content />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="logout" element={<Logout />} />
+        </Routes>
+      </motion.div>
+    </AnimatePresence>
+  );
 }
 
 function App() {
   const [user, setUser] = useState({});
   const [cart, setCart] = useState([]);
+  const [authLoading, setAuthLoading] = useState(true);
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      axios.get(`${API_URL}/admin/me`, { headers: { Authorization: `Bearer ${token}` } })
+        .then((res) => setUser({ ...res.data, token }))
+        .catch(() => localStorage.removeItem("token"))
+        .finally(() => setAuthLoading(false));
+    } else {
+      setAuthLoading(false);
+    }
+  }, []);
+
+  const loginUser = (userData) => {
+    if (userData.token) localStorage.setItem("token", userData.token);
+    setUser(userData);
+  };
+
+  const logoutUser = () => {
+    localStorage.removeItem("token");
+    setUser({});
+  };
 
   return (
-    <AppContext.Provider value={{ user, setUser, cart, setCart }}>
+    <AppContext.Provider value={{ user, setUser: loginUser, logoutUser, cart, setCart, authLoading }}>
       <BrowserRouter>
         <ScrollToTop />
-        <div className="min-h-screen flex flex-col bg-[#f8f7f4]">
+        <div className="min-h-screen flex flex-col bg-[#f8f9fc]">
           <Toaster
             position="top-center"
             toastOptions={{
               duration: 2500,
               style: {
-                background: '#2d2926',
-                color: '#f8f7f4',
+                background: '#1a1f36',
+                color: '#f0f1f6',
                 borderRadius: '100px',
                 fontSize: '12px',
                 fontWeight: '500',
                 fontFamily: "'Inter', system-ui, sans-serif",
                 padding: '10px 22px',
-                boxShadow: '0 12px 40px rgba(45,41,38,0.25)',
+                boxShadow: '0 12px 40px rgba(26,31,54,0.3)',
                 letterSpacing: '0.02em',
               },
-              success: {
-                iconTheme: {
-                  primary: '#4a8c6e',
-                  secondary: '#f8f7f4',
-                },
-              },
-              error: {
-                iconTheme: {
-                  primary: '#c8553a',
-                  secondary: '#f8f7f4',
-                },
-              },
+              success: { iconTheme: { primary: '#10b981', secondary: '#ffffff' } },
+              error: { iconTheme: { primary: '#ef4444', secondary: '#ffffff' } },
             }}
           />
           <Header />
           <main className="flex-1">
-            <Routes>
-              <Route index element={<Content />} />
-              <Route path="cart" element={<Cart />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="login" element={<Login />} />
-              <Route path="register" element={<Register />} />
-              <Route path="logout" element={<Logout />} />
-            </Routes>
+            <AnimatedRoutes />
           </main>
           <Footer />
         </div>

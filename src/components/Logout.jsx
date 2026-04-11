@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 export default function Logout() {
-  const { setUser } = useContext(AppContext);
+  const { logoutUser } = useContext(AppContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setUser({});
+    logoutUser();
     toast.success("Logged out");
     navigate("/");
   }, []);
