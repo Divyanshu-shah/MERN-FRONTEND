@@ -14,10 +14,10 @@ const statusConfig = {
   cancelled: { bg: "bg-[#fef2f2]", text: "text-[#ef4444]", border: "border-[#fecaca]", icon: HiOutlineXCircle },
 };
 
-const containerVariants = { hidden: {}, visible: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } } };
+const containerVariants = { hidden: {}, visible: { transition: { staggerChildren: 0.06, delayChildren: 0.08 } } };
 const cardVariants = {
-  hidden: { opacity: 0, y: 20, filter: "blur(4px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
 };
 
 export default function Orders() {

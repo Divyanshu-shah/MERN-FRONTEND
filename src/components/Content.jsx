@@ -9,12 +9,12 @@ const smoothSpring = { type: "spring", stiffness: 300, damping: 25, mass: 0.8 };
 
 const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.04, delayChildren: 0.05 } },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.97, filter: "blur(4px)" },
-  visible: { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+  hidden: { opacity: 0, y: 20, scale: 0.98 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
 };
 
 function Content() {
@@ -72,7 +72,7 @@ function Content() {
             return (
               <motion.div key={product._id} variants={cardVariants}
                 className="product-card rounded-2xl overflow-hidden bg-white border border-[#e5e7ef]/60 flex flex-col"
-                style={{ willChange: "transform, opacity, filter" }}>
+              >
                 <div className="relative aspect-[3/4] overflow-hidden bg-[#eef0f6]">
                   <img src={getImageUrl(product.imageUrl)} alt={product.name} className="product-img w-full h-full object-cover" loading="lazy" />
                   <div className="product-overlay absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent flex items-end justify-center pb-5">

@@ -12,10 +12,10 @@ import {
 const smoothSpring = { type: "spring", stiffness: 300, damping: 25, mass: 0.8 };
 
 const itemVariants = {
-  initial: { opacity: 0, y: 16, filter: "blur(3px)" },
-  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-  exit: { opacity: 0, x: -30, height: 0, filter: "blur(3px)",
-    transition: { opacity: { duration: 0.25 }, x: { duration: 0.3, ease: [0.16, 1, 0.3, 1] }, height: { duration: 0.35, delay: 0.1, ease: [0.16, 1, 0.3, 1] }, filter: { duration: 0.2 } } },
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, x: -20,
+    transition: { opacity: { duration: 0.15 }, x: { duration: 0.2, ease: "easeIn" } } },
 };
 
 export default function Cart() {

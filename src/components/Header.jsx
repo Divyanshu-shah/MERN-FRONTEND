@@ -35,7 +35,7 @@ function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      className={`sticky top-0 z-50 transition-[background,border-color,box-shadow] duration-300 ease-out ${
         scrolled
           ? "glass border-b border-white/40 shadow-[0_1px_20px_rgba(0,0,0,0.04)]"
           : "bg-transparent"
