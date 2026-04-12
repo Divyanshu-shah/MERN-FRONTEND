@@ -17,6 +17,62 @@
 }
 
 /* ═══════════════════════════════════════════
+   THEME VARIABLES — Light (default)
+   ═══════════════════════════════════════════ */
+:root {
+  --c-bg: #f8f9fc;
+  --c-surface: #ffffff;
+  --c-surface-alt: #f5f6fa;
+  --c-text: #1a1f36;
+  --c-text-secondary: #64698b;
+  --c-text-muted: #9ca0b8;
+  --c-border: #e5e7ef;
+  --c-border-light: #eef0f6;
+  --c-hover-bg: rgba(99, 102, 241, 0.05);
+  --c-card-shadow: 0 4px 40px rgba(0, 0, 0, 0.04);
+  --c-glass-bg: rgba(255, 255, 255, 0.85);
+  --c-glass-border: rgba(255, 255, 255, 0.4);
+  --c-shimmer-1: #eef0f6;
+  --c-shimmer-2: #e5e7ef;
+  --c-input-bg: #f5f6fa;
+  --c-input-placeholder: #b0b4c8;
+  --c-scrollbar: #9ca0b8;
+  --c-scrollbar-hover: #7578a0;
+  --c-overlay: rgba(0, 0, 0, 0.4);
+  --c-toast-bg: #1a1f36;
+  --c-toast-text: #f0f1f6;
+  --c-divider: #f0f1f6;
+}
+
+/* ═══════════════════════════════════════════
+   THEME VARIABLES — Dark
+   ═══════════════════════════════════════════ */
+.dark {
+  --c-bg: #0f1117;
+  --c-surface: #1a1d2e;
+  --c-surface-alt: #232640;
+  --c-text: #e8eaf0;
+  --c-text-secondary: #9ea3c0;
+  --c-text-muted: #6b7094;
+  --c-border: #2a2e45;
+  --c-border-light: #232640;
+  --c-hover-bg: rgba(99, 102, 241, 0.1);
+  --c-card-shadow: 0 4px 40px rgba(0, 0, 0, 0.2);
+  --c-glass-bg: rgba(26, 29, 46, 0.88);
+  --c-glass-border: rgba(42, 46, 69, 0.6);
+  --c-shimmer-1: #232640;
+  --c-shimmer-2: #2a2e45;
+  --c-input-bg: #232640;
+  --c-input-placeholder: #6b7094;
+  --c-scrollbar: #4a4f6b;
+  --c-scrollbar-hover: #6b7094;
+  --c-overlay: rgba(0, 0, 0, 0.6);
+  --c-toast-bg: #e8eaf0;
+  --c-toast-text: #0f1117;
+  --c-divider: #2a2e45;
+}
+
+/* ═══════════════════════════════════════════
    ROOT & GLOBAL RESETS
    ═══════════════════════════════════════════ */
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,11 +80,12 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: #f8f9fc;
-  color: #1a1f36;
+  background: var(--c-bg);
+  color: var(--c-text);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -47,8 +104,8 @@ body {
    ═══════════════════════════════════════════ */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #9ca0b8; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #7578a0; }
+::-webkit-scrollbar-thumb { background: var(--c-scrollbar); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--c-scrollbar-hover); }
 ::selection { background: #6366f1; color: #ffffff; }
 
 /* ═══════════════════════════════════════════
@@ -135,7 +192,7 @@ body {
 }
 
 .shimmer-bg {
-  background: linear-gradient(90deg, #eef0f6 25%, #e5e7ef 50%, #eef0f6 75%);
+  background: linear-gradient(90deg, var(--c-shimmer-1) 25%, var(--c-shimmer-2) 50%, var(--c-shimmer-1) 75%);
   background-size: 936px 100%;
   animation: shimmer 2s ease-in-out infinite;
 }
@@ -225,8 +282,8 @@ body {
 
 .btn-ghost {
   background: transparent;
-  border: 1.5px solid #d1d4e0;
-  color: #1a1f36;
+  border: 1.5px solid var(--c-border);
+  color: var(--c-text);
   cursor: pointer;
   transition:
     border-color 0.2s ease,
@@ -243,8 +300,8 @@ body {
    INPUT STYLES — Smooth focus transitions
    ═══════════════════════════════════════════ */
 .input-elegant {
-  background: #ffffff;
-  border: 1.5px solid #e5e7ef;
+  background: var(--c-surface);
+  border: 1.5px solid var(--c-border);
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
@@ -259,7 +316,7 @@ body {
    GLASS EFFECT
    ═══════════════════════════════════════════ */
 .glass {
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--c-glass-bg);
   backdrop-filter: blur(12px) saturate(140%);
   -webkit-backdrop-filter: blur(12px) saturate(140%);
 }
@@ -322,6 +379,28 @@ body {
   outline-offset: 2px;
   border-radius: 4px;
   transition: outline-offset 0.2s ease;
+}
+
+/* ═══════════════════════════════════════════
+   THEME TOGGLE BUTTON
+   ═══════════════════════════════════════════ */
+.theme-toggle {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-text-secondary);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.theme-toggle:hover {
+  background: var(--c-hover-bg);
+  color: var(--c-text);
 }
 
 /* ═══════════════════════════════════════════

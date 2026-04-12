@@ -34,33 +34,36 @@ export default function Login() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-[440px] bg-white rounded-3xl shadow-[0_8px_60px_rgba(0,0,0,0.08)] border border-[#e5e7ef] p-10 sm:p-12"
+        className="w-full max-w-[440px] rounded-3xl p-10 sm:p-12"
+        style={{ background: "var(--c-surface)", border: "1px solid var(--c-border)", boxShadow: "var(--c-card-shadow)" }}
       >
-        <h1 className="text-[28px] font-serif font-bold text-[#1a1f36] text-center mb-10">
+        <h1 className="text-[28px] font-serif font-bold text-center mb-10" style={{ color: "var(--c-text)" }}>
           Sign In
         </h1>
 
         <div className="mb-6">
-          <label className="block text-[14px] font-bold text-[#1a1f36] mb-2">Email Address</label>
+          <label className="block text-[14px] font-bold mb-2" style={{ color: "var(--c-text)" }}>Email Address</label>
           <input
             type="email"
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             onKeyDown={(e) => e.key === "Enter" && handleLogin()}
             placeholder="Enter your email"
-            className="w-full h-[50px] px-6 rounded-full bg-[#f5f6fa] text-[14px] text-[#1a1f36] placeholder:text-[#b0b4c8] border border-[#e5e7ef] focus:outline-none focus:border-[#6366f1] focus:ring-3 focus:ring-[#6366f1]/10 transition-all duration-300"
+            className="w-full h-[50px] px-6 rounded-full text-[14px] focus:outline-none focus:border-[#6366f1] focus:ring-3 focus:ring-[#6366f1]/10 transition-all duration-300"
+            style={{ background: "var(--c-input-bg)", color: "var(--c-text)", border: "1px solid var(--c-border)" }}
           />
         </div>
 
         <div className="mb-8">
-          <label className="block text-[14px] font-bold text-[#1a1f36] mb-2">Password</label>
+          <label className="block text-[14px] font-bold mb-2" style={{ color: "var(--c-text)" }}>Password</label>
           <input
             type="password"
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
             onKeyDown={(e) => e.key === "Enter" && handleLogin()}
             placeholder="Enter your password"
-            className="w-full h-[50px] px-6 rounded-full bg-[#f5f6fa] text-[14px] text-[#1a1f36] placeholder:text-[#b0b4c8] border border-[#e5e7ef] focus:outline-none focus:border-[#6366f1] focus:ring-3 focus:ring-[#6366f1]/10 transition-all duration-300"
+            className="w-full h-[50px] px-6 rounded-full text-[14px] focus:outline-none focus:border-[#6366f1] focus:ring-3 focus:ring-[#6366f1]/10 transition-all duration-300"
+            style={{ background: "var(--c-input-bg)", color: "var(--c-text)", border: "1px solid var(--c-border)" }}
           />
         </div>
 
@@ -75,7 +78,7 @@ export default function Login() {
           {loading ? "Signing in..." : "Sign In"}
         </motion.button>
 
-        <p className="text-center text-[#64698b] text-[14px] mt-8">
+        <p className="text-center text-[14px] mt-8" style={{ color: "var(--c-text-secondary)" }}>
           Don't have an account?{" "}
           <Link to="/register" className="text-[#6366f1] font-bold hover:underline">
             Create Account

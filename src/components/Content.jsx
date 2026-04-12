@@ -71,9 +71,10 @@ function Content() {
             const qty = getQty(product._id);
             return (
               <motion.div key={product._id} variants={cardVariants}
-                className="product-card rounded-2xl overflow-hidden bg-white border border-[#e5e7ef]/60 flex flex-col"
+                className="product-card rounded-2xl overflow-hidden flex flex-col"
+                style={{ background: "var(--c-surface)", border: "1px solid var(--c-border)" }}
               >
-                <div className="relative aspect-[3/4] overflow-hidden bg-[#eef0f6]">
+                <div className="relative aspect-[3/4] overflow-hidden" style={{ background: "var(--c-border-light)" }}>
                   <img src={getImageUrl(product.imageUrl)} alt={product.name} className="product-img w-full h-full object-cover" loading="lazy" />
                   <div className="product-overlay absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent flex items-end justify-center pb-5">
                     {qty === 0 && (
@@ -86,22 +87,25 @@ function Content() {
                 </div>
 
                 <div className="p-4 sm:p-5 flex flex-col flex-1">
-                  <h3 className="text-[13px] sm:text-sm font-semibold text-[#1a1f36] truncate mb-0.5">{product.name}</h3>
-                  <p className="text-[11px] sm:text-xs text-[#64698b] line-clamp-2 mb-4 flex-1 leading-relaxed">{product.desc}</p>
+                  <h3 className="text-[13px] sm:text-sm font-semibold truncate mb-0.5" style={{ color: "var(--c-text)" }}>{product.name}</h3>
+                  <p className="text-[11px] sm:text-xs line-clamp-2 mb-4 flex-1 leading-relaxed" style={{ color: "var(--c-text-secondary)" }}>{product.desc}</p>
                   <div className="flex items-center justify-between mt-auto">
-                    <span className="text-base sm:text-lg font-bold text-[#1a1f36] tracking-tight">₹{product.price}</span>
+                    <span className="text-base sm:text-lg font-bold tracking-tight" style={{ color: "var(--c-text)" }}>₹{product.price}</span>
                     <AnimatePresence mode="wait">
                       {qty > 0 ? (
                         <motion.div key="controls" initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.85 }} transition={smoothSpring}
-                          className="flex items-center gap-1 bg-[#f5f6fa] rounded-full p-1 border border-[#e5e7ef]">
+                          className="flex items-center gap-1 rounded-full p-1"
+                          style={{ background: "var(--c-surface-alt)", border: "1px solid var(--c-border)" }}>
                           <motion.button whileTap={{ scale: 0.85 }} transition={smoothSpring} onClick={() => dec(product._id)}
-                            className="w-7 h-7 rounded-full hover:bg-white text-[#64698b] hover:text-[#1a1f36] flex items-center justify-center transition-all duration-300">
+                            className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300"
+                            style={{ color: "var(--c-text-secondary)" }}>
                             <HiOutlineMinus className="w-3 h-3" />
                           </motion.button>
                           <motion.span key={qty} initial={{ scale: 1.3, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={smoothSpring}
-                            className="font-bold text-[12px] w-5 text-center text-[#1a1f36]">{qty}</motion.span>
+                            className="font-bold text-[12px] w-5 text-center" style={{ color: "var(--c-text)" }}>{qty}</motion.span>
                           <motion.button whileTap={{ scale: 0.85 }} transition={smoothSpring} onClick={() => inc(product._id)}
-                            className="w-7 h-7 rounded-full hover:bg-white text-[#64698b] hover:text-[#1a1f36] flex items-center justify-center transition-all duration-300">
+                            className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300"
+                            style={{ color: "var(--c-text-secondary)" }}>
                             <HiOutlinePlus className="w-3 h-3" />
                           </motion.button>
                         </motion.div>
@@ -123,11 +127,11 @@ function Content() {
 
       {!loading && products.length === 0 && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="text-center py-32 px-6">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#eef0f6] flex items-center justify-center">
+          <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{ background: "var(--c-border-light)" }}>
             <HiOutlineSparkles className="w-8 h-8 text-[#6366f1] animate-float" />
           </div>
-          <h3 className="text-2xl font-serif font-bold text-[#1a1f36] mb-2">No products yet</h3>
-          <p className="text-[#64698b] text-sm">New items are on the way. Check back soon!</p>
+          <h3 className="text-2xl font-serif font-bold mb-2" style={{ color: "var(--c-text)" }}>No products yet</h3>
+          <p className="text-sm" style={{ color: "var(--c-text-secondary)" }}>New items are on the way. Check back soon!</p>
         </motion.div>
       )}
     </div>

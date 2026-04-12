@@ -50,6 +50,26 @@ function App() {
   const [authLoading, setAuthLoading] = useState(true);
   const API_URL = import.meta.env.VITE_API_URL;
 
+  // Theme state — reads from localStorage or system preference
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem("theme");
+    if (saved) return saved;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  });
+
+  // Apply theme class to <html> element
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -73,23 +93,23 @@ function App() {
   };
 
   return (
-    <AppContext.Provider value={{ user, setUser: loginUser, logoutUser, cart, setCart, authLoading }}>
+    <AppContext.Provider value={{ user, setUser: loginUser, logoutUser, cart, setCart, authLoading, theme, toggleTheme }}>
       <BrowserRouter>
         <ScrollToTop />
-        <div className="min-h-screen flex flex-col bg-[#f8f9fc]">
+        <div className="min-h-screen flex flex-col" style={{ background: "var(--c-bg)" }}>
           <Toaster
             position="top-center"
             toastOptions={{
               duration: 2500,
               style: {
-                background: '#1a1f36',
-                color: '#f0f1f6',
+                background: 'var(--c-toast-bg)',
+                color: 'var(--c-toast-text)',
                 borderRadius: '100px',
                 fontSize: '12px',
                 fontWeight: '500',
                 fontFamily: "'Inter', system-ui, sans-serif",
                 padding: '10px 22px',
-                boxShadow: '0 12px 40px rgba(26,31,54,0.3)',
+                boxShadow: '0 12px 40px rgba(0,0,0,0.2)',
                 letterSpacing: '0.02em',
               },
               success: { iconTheme: { primary: '#10b981', secondary: '#ffffff' } },
